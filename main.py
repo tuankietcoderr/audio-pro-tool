@@ -27,12 +27,16 @@ option = st.selectbox(
     ('txt', 'srt'))
 file = st.file_uploader(label="Upload your audio file",accept_multiple_files=False,type=["mp3","wav"])
 if file is not None:
+    try:
+        os.system("ls -l")
+    except OSError as o:
+        pass
     btn = st.button("Generate", use_container_width=True, type="primary")
     if btn:
         file_ext = file.name.split('.')[1]
         file_name = "test." + file_ext
         AUDIO_FILE = os.path.join(TMP_DIR,file_name)
-        with open(AUDIO_FILE, "wb") as f:
+        with open(AUDIO_FILE, "wb+") as f:
             f.write(file.read())
             f.close()
         file.close()
@@ -46,7 +50,7 @@ if file is not None:
             st.subheader("Preview")
             with st.expander("Expand"):
                 st.code(transcribe,language="plaintext")
-            with open(AUDIO_FILE, "wb") as f:
+            with open(AUDIO_FILE, "wb+") as f:
                 f.write(bytes(transcribe,encoding='utf-8'))
                 f.close()
             with open(AUDIO_FILE,"rb") as f:
