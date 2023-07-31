@@ -1,6 +1,11 @@
+import os
+
 import streamlit as st
 import whisper
 from processing.process import speech_processing
+
+TMP_DIR = os.path.join(os.getcwd(),"tmp")
+print(TMP_DIR)
 # Title
 st.title("Audio to text")
 
@@ -26,23 +31,25 @@ if file is not None:
     if btn:
         file_ext = file.name.split('.')[1]
         file_name = "test." + file_ext
-        with open(f"tmp/{file_name}", "wb") as f:
+        AUDIO_FILE = os.path.join(TMP_DIR,file_name)
+        with open(AUDIO_FILE, "wb") as f:
             f.write(file.read())
             f.close()
         file.close()
         file_type = option
         success = False
         with st.spinner("Loading"):
-            result, transcribe, transcribe_arr = speech_processing(audio_file=f"tmp/{file_name}",file_type=file_type)
+            result, transcribe, transcribe_arr = speech_processing(audio_file=AUDIO_FILE,file_type=file_type)
             success = True
         if success:
             st.success("Completed!")
             st.subheader("Preview")
             with st.expander("Expand"):
                 st.code(transcribe,language="plaintext")
-            with open(f"tmp/transcribe.{file_type}", "wb") as f:
+            with open(AUDIO_FILE, "wb") as f:
                 f.write(bytes(transcribe,encoding='utf-8'))
                 f.close()
-            with open(f"tmp/transcribe.{file_type}","rb") as f:
+            with open(AUDIO_FILE,"rb") as f:
                 btn = st.download_button(label="Download",data=f,file_name=f"transcribe.{file_type}",use_container_width=True)
                 f.close()
+            os.remove(AUDIO_FILE)
