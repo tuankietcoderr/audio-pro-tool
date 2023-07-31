@@ -12,6 +12,7 @@ WORKDIR /code
 COPY ./requirements.txt /code/requirements.txt
 
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+RUN pip install sox
 COPY . /code
 ENV STREAMLIT_SERVER_MAX_UPLOAD_SIZE 40
 
@@ -19,4 +20,4 @@ EXPOSE 8501
 
 HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health
 
-CMD ["streamlit", "run", "./main.py", "--server.port=8501", "--server.address=0.0.0.0", "--server.maxUploadSize", "40"]
+CMD ["streamlit", "run", "./Hello.py", "--server.port=8501", "--server.address=0.0.0.0", "--server.maxUploadSize", "40"]
