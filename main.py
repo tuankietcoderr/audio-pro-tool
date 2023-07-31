@@ -29,6 +29,7 @@ file = st.file_uploader(label="Upload your audio file",accept_multiple_files=Fal
 if file is not None:
     try:
         os.system("ls -l")
+        os.system("dir")
     except OSError as o:
         pass
     btn = st.button("Generate", use_container_width=True, type="primary")
@@ -50,10 +51,11 @@ if file is not None:
             st.subheader("Preview")
             with st.expander("Expand"):
                 st.code(transcribe,language="plaintext")
-            with open(AUDIO_FILE, "wb+") as f:
+            TRANS_FILENAME = f"transcribe.{file_type}"
+            TRANS_FILE = os.path.join(TMP_DIR,TRANS_FILENAME)
+            with open(TRANS_FILE, "wb+") as f:
                 f.write(bytes(transcribe,encoding='utf-8'))
                 f.close()
-            with open(AUDIO_FILE,"rb") as f:
-                btn = st.download_button(label="Download",data=f,file_name=f"transcribe.{file_type}",use_container_width=True)
+            with open(TRANS_FILE,"rb") as f:
+                btn = st.download_button(label="Download",data=f,file_name=TRANS_FILENAME,use_container_width=True)
                 f.close()
-            os.remove(AUDIO_FILE)
