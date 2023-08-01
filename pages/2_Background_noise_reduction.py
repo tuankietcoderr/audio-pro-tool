@@ -32,29 +32,25 @@ if not UNDER_CONSTRUCTION:
                 except OSError:
                     pass
                 AUDIO_FILE = dst
-            os.system("df -h")
             with st.spinner("Loading"):
-                try:
-                    model, df_state, _ = init_df()
-                    # Download and open some audio file. You use your audio files here
-                    audio, _ = load_audio(AUDIO_FILE, sr=df_state.sr())
-                    # Denoise the audio
-                    enhanced = enhance(model, df_state, audio)
-                    # Save for listening
-                    ENHANCE_AUDIO = f"enhanced_{file_name}"
-                    SAVED_AUDIO = os.path.join(TMP_DIR, ENHANCE_AUDIO)
-                    pre_processing(SAVED_AUDIO)
-                    save_audio(SAVED_AUDIO, enhanced, df_state.sr())
-                    st.success("Completed!")
-                    st.markdown("### Before")
-                    st.audio(AUDIO_FILE)
-                    st.markdown("### After")
-                    st.audio(SAVED_AUDIO)
-                except OSError:
-                    st.error("Error while processing audio. Please try again!")
-                    pass
+                model, df_state, _ = init_df()
+                # Download and open some audio file. You use your audio files here
+                audio, _ = load_audio(AUDIO_FILE, sr=df_state.sr())
+                # Denoise the audio
+                enhanced = enhance(model, df_state, audio)
+                # Save for listening
+            ENHANCE_AUDIO = f"enhanced_{file_name}"
+            SAVED_AUDIO = os.path.join(TMP_DIR, ENHANCE_AUDIO)
+            pre_processing(SAVED_AUDIO)
+            save_audio(SAVED_AUDIO, enhanced, df_state.sr())
+            st.success("Completed!")
+            st.markdown("### Before")
+            st.audio(AUDIO_FILE)
+            st.markdown("### After")
+            st.audio(SAVED_AUDIO)
             try:
                 os.remove(SAVED_AUDIO)
+                os.remove(AUDIO_FILE)
             except OSError:
                 print("Can't remove")
                 pass
