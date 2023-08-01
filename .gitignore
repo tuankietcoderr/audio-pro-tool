@@ -4,7 +4,8 @@ app/download/**/*.*
 !app/download/.temp
 *.mp3
 **.srt
-
+tmp
+cache
 
 # Created by https://www.toptal.com/developers/gitignore/api/venv,python
 # Edit at https://www.toptal.com/developers/gitignore?templates=venv,python
