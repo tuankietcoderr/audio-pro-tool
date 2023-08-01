@@ -23,6 +23,7 @@ st.subheader("Generate")
 option = st.selectbox(
     'Choose file type (txt, srt)',
     ('txt', 'srt'))
+
 file = st.file_uploader(label="Upload your audio file", accept_multiple_files=False, type=["mp3", "wav"])
 if file is not None:
     btn = st.button("Generate", use_container_width=True, type="primary")
@@ -37,7 +38,7 @@ if file is not None:
         file_type = option
         success = False
         with st.spinner("Loading"):
-            result, transcribe, transcribe_arr = audio_to_text(audio_file=AUDIO_FILE, file_type=file_type)
+            result, transcribe, transcribe_arr = audio_to_text(audio_file=AUDIO_FILE, file_type=file_type, model_type=model_type)
             success = True
         if success:
             st.success("Completed!")
