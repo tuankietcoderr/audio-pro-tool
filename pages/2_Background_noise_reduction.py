@@ -6,7 +6,7 @@ from pydub import AudioSegment
 from constants.temporary import TMP_DIR
 from utils.pre_processing import pre_processing
 
-UNDER_CONSTRUCTION = True
+UNDER_CONSTRUCTION = False
 page_meta(page_title="Background noise reduction", page_icon="🎸", is_under_construction=UNDER_CONSTRUCTION)
 if not UNDER_CONSTRUCTION:
     file = st.file_uploader(label="Upload your audio file", accept_multiple_files=False, type=["mp3", "wav"])
@@ -32,6 +32,7 @@ if not UNDER_CONSTRUCTION:
                 except OSError:
                     pass
                 AUDIO_FILE = dst
+            os.system("df -h")
             with st.spinner("Loading"):
                 try:
                     model, df_state, _ = init_df()
@@ -49,7 +50,7 @@ if not UNDER_CONSTRUCTION:
                     st.audio(AUDIO_FILE)
                     st.markdown("### After")
                     st.audio(SAVED_AUDIO)
-                except:
+                except OSError:
                     st.error("Error while processing audio. Please try again!")
                     pass
             try:
