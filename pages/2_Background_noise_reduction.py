@@ -48,7 +48,6 @@ if file is not None:
             st.markdown("### After")
             st.audio(SAVED_AUDIO)
         try:
-            os.remove(AUDIO_FILE)
             os.remove(SAVED_AUDIO)
         except OSError:
             print("Can't remove")
