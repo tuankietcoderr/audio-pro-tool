@@ -1,5 +1,4 @@
-import datetime
-
+import logging
 from component.page_meta import page_meta
 import streamlit as st
 from utils.convert_audio_to_duration import convert_audio_to_duration,second_to_hms,hms_to_second
@@ -46,6 +45,8 @@ if file is not None:
             SAVED_FILE = AUDIO_FILE.replace(file_ext, "wav")
             res.export(SAVED_FILE, format="wav")
             st.audio(SAVED_FILE)
+            logging.info("AUDIO_CUTTER")
+            print("AUDIO_CUTTER")
             try:
                 os.remove(SAVED_FILE)
                 os.remove(AUDIO_FILE)

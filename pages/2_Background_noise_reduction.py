@@ -1,5 +1,6 @@
 import streamlit as st
 import os
+import logging
 from component.page_meta import page_meta
 from pydub import AudioSegment
 from constants.temporary import TMP_DIR
@@ -48,6 +49,8 @@ if not UNDER_CONSTRUCTION:
             st.audio(AUDIO_FILE)
             st.markdown("### After")
             st.audio(SAVED_AUDIO)
+            logging.info("BACKGROUND_NOISE_REDUCTION")
+            print("BACKGROUND_NOISE_REDUCTION")
             try:
                 os.remove(SAVED_AUDIO)
                 os.remove(AUDIO_FILE)

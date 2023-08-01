@@ -1,9 +1,12 @@
+import datetime
+
 from component.page_meta import page_meta
 from pydub import AudioSegment
 import streamlit as st
 from utils.pre_processing import pre_processing
 from constants.temporary import TMP_DIR
 import os
+import logging
 from processing.audio_compression_process import get_audio_info,COMMON_SAMPLE_RATES_LIST_INT
 
 page_meta(page_title="Audio compression", page_icon="⏬", is_under_construction=False)
@@ -33,6 +36,8 @@ if file is not None:
             compressed_audio.export(AUDIO_FILE, format="mp3", bitrate=str(br)+"K")
             st.markdown(f"After compressing: `{(os.path.getsize(AUDIO_FILE) / (1024 * 1024)):.2f}MB`")
             st.audio(AUDIO_FILE)
+        logging.info("AUDIO_COMPRESSION")
+        print("AUDIO_COMPRESSION")
         try:
             os.remove(AUDIO_FILE)
         except OSError:

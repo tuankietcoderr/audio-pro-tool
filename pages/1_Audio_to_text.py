@@ -1,3 +1,4 @@
+import logging
 import os
 import streamlit as st
 import whisper
@@ -69,6 +70,8 @@ if file is not None:
             with open(TRANS_FILE, "rb") as f:
                 btn = st.download_button(label="Download", data=f, file_name=TRANS_FILENAME, use_container_width=True)
                 f.close()
+            logging.info("AUDIO_TO_TEXT")
+            print("AUDIO_TO_TEXT")
             try:
                 os.remove(AUDIO_FILE)
                 os.remove(TRANS_FILE)

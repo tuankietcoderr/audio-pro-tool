@@ -1,6 +1,7 @@
 from component.page_meta import page_meta
 import streamlit as st
 import os
+import logging
 from utils.pre_processing import pre_processing
 from constants.temporary import TMP_DIR
 from pydub import AudioSegment
@@ -32,6 +33,8 @@ if file is not None:
         with st.spinner("Loading..."):
             audio.export(SAVED_AUDIO, format=new_ext)
             st.audio(SAVED_AUDIO, format=f"audio/{new_ext.replace('mp3','mpeg').replace('oga','ogg')}")
+        logging.info("AUDIO_FORMAT_CONVERTER")
+        print("AUDIO_FORMAT_CONVERTER")
     try:
         os.remove(AUDIO_FILE)
         os.remove(SAVED_AUDIO)
