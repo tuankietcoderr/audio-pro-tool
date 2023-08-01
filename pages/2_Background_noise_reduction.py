@@ -34,7 +34,7 @@ if not UNDER_CONSTRUCTION:
                 except OSError:
                     pass
                 AUDIO_FILE = dst
-            os.system("free -m")
+            os.system("cat /proc/meminfo")
             with st.spinner("Loading"):
                 model, df_state, _ = init_df()
                 # Download and open some audio file. You use your audio files here
