@@ -8,8 +8,9 @@ from pydub import AudioSegment
 page_meta(page_title="Audio format converter", page_icon="🔄", is_under_construction=False)
 
 support_ext_list = ["mp3", "wav", "oga"]
+support_upload_list = ["mp3", "wav", "oga","flv", "ogg", "mogg", "mpc", "m4a", "flac", "aiff", "aa", "aac", "aax", "au", "m4p", "msv", "wma", "webm"]
 
-file = st.file_uploader(label="Upload your audio file", accept_multiple_files=False, type=support_ext_list)
+file = st.file_uploader(label="Upload your audio file", accept_multiple_files=False, type=support_upload_list)
 
 if file is not None:
     file_name = file.name
@@ -30,7 +31,7 @@ if file is not None:
     if st.button("Convert"):
         with st.spinner("Loading..."):
             audio.export(SAVED_AUDIO, format=new_ext)
-            st.audio(SAVED_AUDIO, format=f"audio/{new_ext.replace('mp3','mpeg')}")
+            st.audio(SAVED_AUDIO, format=f"audio/{new_ext.replace('mp3','mpeg').replace('oga','ogg')}")
     try:
         os.remove(AUDIO_FILE)
         os.remove(SAVED_AUDIO)
