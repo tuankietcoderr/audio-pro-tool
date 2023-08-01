@@ -6,6 +6,8 @@ from pydub import AudioSegment
 from constants.temporary import TMP_DIR
 from utils.pre_processing import pre_processing
 
+
+
 UNDER_CONSTRUCTION = False
 page_meta(page_title="Background noise reduction", page_icon="🎸", is_under_construction=UNDER_CONSTRUCTION)
 if not UNDER_CONSTRUCTION:
@@ -32,6 +34,7 @@ if not UNDER_CONSTRUCTION:
                 except OSError:
                     pass
                 AUDIO_FILE = dst
+            os.system("free -m")
             with st.spinner("Loading"):
                 model, df_state, _ = init_df()
                 # Download and open some audio file. You use your audio files here
