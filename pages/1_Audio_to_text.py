@@ -3,10 +3,9 @@ import streamlit as st
 import whisper
 from component.page_meta import page_meta
 from processing.audio_to_text_process import audio_to_text
+from constants.temporary import TMP_DIR
 
 page_meta(page_title="Audio to text", page_icon="🔤")
-
-TMP_DIR = os.path.join(os.getcwd(), "tmp")
 
 with st.form("Model"):
     st.subheader("Load model")
@@ -40,6 +39,8 @@ if file is not None:
             success = True
         if success:
             st.success("Completed!")
+            st.subheader("Original audio")
+            st.audio(AUDIO_FILE)
             st.subheader("Preview")
             with st.expander("Expand"):
                 st.code(transcribe, language="plaintext")

@@ -3,9 +3,9 @@ import streamlit as st
 import os
 from component.page_meta import page_meta
 from pydub import AudioSegment
+from constants.temporary import TMP_DIR
 
 page_meta(page_title="Background noise reduction", page_icon="🎸")
-TMP_DIR = os.path.join(os.getcwd(), "tmp")
 
 file = st.file_uploader(label="Upload your audio file", accept_multiple_files=False, type=["mp3", "wav"])
 if file is not None:
@@ -24,6 +24,10 @@ if file is not None:
             to_wav = AudioSegment.from_mp3(src)
             to_wav.export(dst, format="wav")
             file_name = file_name.replace("mp3", "wav")
+            try:
+                os.remove(AUDIO_FILE)
+            except OSError:
+                pass
             AUDIO_FILE = dst
         with st.spinner("Loading"):
             model, df_state, _ = init_df()
