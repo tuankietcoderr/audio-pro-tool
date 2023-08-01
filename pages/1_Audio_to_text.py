@@ -14,7 +14,7 @@ if "abort_loading" not in st.session_state:
 st.subheader("Load model")
 model_type = st.selectbox(
     'Choose model type',
-    ('tiny', 'base','small')) # , 'medium', 'large'
+    ('tiny', 'base')) # ,'small', 'medium', 'large'
 btn = st.button("Load")
 if model_type in ["small","medium","large"]:
     st.warning("The better the model, the longer the load time")
