@@ -12,7 +12,7 @@ with st.form("Model"):
     st.subheader("Load model")
     model_type = st.selectbox(
         'Choose model type',
-        ('tiny', 'base'))
+        ('tiny', 'base','small'))
     btn = st.form_submit_button("Load")
     if btn:
         with st.spinner("Loading..."):

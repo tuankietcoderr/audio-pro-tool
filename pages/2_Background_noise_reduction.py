@@ -1,12 +1,13 @@
-from df.enhance import enhance, init_df, load_audio, save_audio
 import streamlit as st
 import os
 from component.page_meta import page_meta
 from pydub import AudioSegment
 from constants.temporary import TMP_DIR
 from utils.pre_processing import pre_processing
+import noisereduce as nr
+import numpy as np
 
-UNDER_CONSTRUCTION = True
+UNDER_CONSTRUCTION = False
 page_meta(page_title="Background noise reduction", page_icon="🎸", is_under_construction=UNDER_CONSTRUCTION)
 if not UNDER_CONSTRUCTION:
     file = st.file_uploader(label="Upload your audio file", accept_multiple_files=False, type=["mp3", "wav"])
@@ -33,27 +34,23 @@ if not UNDER_CONSTRUCTION:
                     pass
                 AUDIO_FILE = dst
             with st.spinner("Loading"):
-                try:
-                    model, df_state, _ = init_df()
-                    # Download and open some audio file. You use your audio files here
-                    audio, _ = load_audio(AUDIO_FILE, sr=df_state.sr())
-                    # Denoise the audio
-                    enhanced = enhance(model, df_state, audio)
-                    # Save for listening
-                    ENHANCE_AUDIO = f"enhanced_{file_name}"
-                    SAVED_AUDIO = os.path.join(TMP_DIR, ENHANCE_AUDIO)
-                    pre_processing(SAVED_AUDIO)
-                    save_audio(SAVED_AUDIO, enhanced, df_state.sr())
-                    st.success("Completed!")
-                    st.markdown("### Before")
-                    st.audio(AUDIO_FILE)
-                    st.markdown("### After")
-                    st.audio(SAVED_AUDIO)
-                except:
-                    st.error("Error while processing audio. Please try again!")
-                    pass
+                audio = AudioSegment.from_file(AUDIO_FILE)
+                # Convert Pydub AudioSegment object to NumPy array
+                samples = audio.get_array_of_samples()
+                sample_rate = audio.frame_rate
+                reduced_noise = nr.reduce_noise(y=samples, sr=sample_rate)
+                reduced_audio = audio._spawn(reduced_noise.astype(np.int16))
+                ENHANCE_AUDIO = f"enhance_{file_name}"
+                SAVED_AUDIO = os.path.join(TMP_DIR, ENHANCE_AUDIO)
+                reduced_audio.export(SAVED_AUDIO, format="wav")
+            st.success("Completed!")
+            st.markdown("### Before")
+            st.audio(AUDIO_FILE)
+            st.markdown("### After")
+            st.audio(SAVED_AUDIO)
             try:
                 os.remove(SAVED_AUDIO)
+                os.remove(AUDIO_FILE)
             except OSError:
                 print("Can't remove")
                 pass
