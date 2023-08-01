@@ -8,16 +8,28 @@ from utils.pre_processing import pre_processing
 
 page_meta(page_title="Audio to text", page_icon="🔤")
 
-with st.form("Model"):
-    st.subheader("Load model")
-    model_type = st.selectbox(
-        'Choose model type',
-        ('tiny', 'base','small'))
-    btn = st.form_submit_button("Load")
-    if btn:
-        with st.spinner("Loading..."):
-            whisper.load_model(model_type)
-        st.success(f"Loaded {str(model_type).upper()} model")
+if "abort_loading" not in st.session_state:
+    st.session_state.abort_loading = False
+
+st.subheader("Load model")
+model_type = st.selectbox(
+    'Choose model type',
+    ('tiny', 'base','small')) # , 'medium', 'large'
+btn = st.button("Load")
+if model_type in ["small","medium","large"]:
+    st.warning("The better the model, the longer the load time")
+
+if btn:
+    st.session_state.abort_loading = False
+    with st.spinner("Loading..."):
+        if not st.session_state.abort_loading:
+            if st.button("Cancel"):
+                st.session_state.abort_loading = True
+                st.experimental_rerun()
+
+            w = whisper.load_model(model_type)
+            st.success(f"Loaded {str(model_type).upper()} model")
+
 
 st.subheader("Generate")
 option = st.selectbox(
