@@ -32,6 +32,8 @@ if file is not None:
             f.write(file.read())
             f.close()
         file.close()
+        os.system("ls -l")
+        os.system("ls /mount/src/audio-to-text/tmp")
         file_type = option
         success = False
         with st.spinner("Loading"):
