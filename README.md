@@ -24,9 +24,6 @@ desired output format.
 5. **Audio Compression**: Compress large audio files without compromising on quality using our efficient audio 
 compression tool. Reduce file sizes for easy sharing and storage, while maintaining the integrity of your sound.
 
-6. **Real-Time Preview**: Experience the changes in real-time with our instant preview feature. Fine-tune your 
-audio settings and observe the impact on the waveform as you make adjustments.
-
 Experience the power of Audio Pro Tool and revolutionize your audio creations. Unlock endless possibilities with 
 our comprehensive set of tools designed to elevate your projects to new heights. Sign up now and embark on a 
 remarkable audio journey with Audio Pro Tool!

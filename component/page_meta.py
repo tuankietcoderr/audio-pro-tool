@@ -10,6 +10,7 @@ def page_meta(page_title: str, page_icon, layout="wide", show_title=True, is_und
                     "<br/> © All right reserved"
                     "<br/> [![](https://visitcount.itsvg.in/api?id=audio-pro-tool&label=Visit&color=1&icon=6&pretty=true)](https://visitcount.itsvg.in)",
                     unsafe_allow_html=True)
+        st.markdown("[![Star](https://img.shields.io/github/stars/tuankietcoderr/audio-pro-tool.svg?logo=github&style=social)](https://github.com/tuankietcoderr/audio-pro-tool)")
     if show_title:
         st.title(page_title)
     if is_under_construction:
