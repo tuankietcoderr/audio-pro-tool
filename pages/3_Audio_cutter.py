@@ -5,6 +5,7 @@ import streamlit as st
 from utils.convert_audio_to_duration import convert_audio_to_duration,second_to_hms,hms_to_second
 from constants.temporary import TMP_DIR
 import os
+from utils.pre_processing import pre_processing
 
 page_meta(page_title="Audio cutter", page_icon="✂")
 
@@ -13,6 +14,7 @@ if file is not None:
     file_name = file.name
     file_ext = file_name.split(".")[-1]
     AUDIO_FILE = os.path.join(TMP_DIR, file_name)
+    pre_processing(AUDIO_FILE)
     with open(AUDIO_FILE, "wb+") as f:
         f.write(file.read())
         f.close()
@@ -46,6 +48,7 @@ if file is not None:
             st.audio(SAVED_FILE)
             try:
                 os.remove(SAVED_FILE)
+                os.remove(AUDIO_FILE)
             except OSError:
                 pass
 

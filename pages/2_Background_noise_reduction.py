@@ -4,6 +4,7 @@ import os
 from component.page_meta import page_meta
 from pydub import AudioSegment
 from constants.temporary import TMP_DIR
+from utils.pre_processing import pre_processing
 
 page_meta(page_title="Background noise reduction", page_icon="🎸")
 
@@ -14,6 +15,7 @@ if file is not None:
         file_name = file.name
         file_ext = file_name.split(".")[-1]
         AUDIO_FILE = os.path.join(TMP_DIR, file_name)
+        pre_processing(AUDIO_FILE)
         with open(AUDIO_FILE, "wb+") as f:
             f.write(file.read())
             f.close()
@@ -38,6 +40,7 @@ if file is not None:
             # Save for listening
             ENHANCE_AUDIO = f"enhanced_{file_name}"
             SAVED_AUDIO = os.path.join(TMP_DIR, ENHANCE_AUDIO)
+            pre_processing(SAVED_AUDIO)
             save_audio(SAVED_AUDIO, enhanced, df_state.sr())
             st.success("Completed!")
             st.markdown("### Before")

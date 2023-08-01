@@ -4,7 +4,7 @@ import whisper
 from component.page_meta import page_meta
 from processing.audio_to_text_process import audio_to_text
 from constants.temporary import TMP_DIR
-
+from utils.pre_processing import pre_processing
 
 page_meta(page_title="Audio to text", page_icon="🔤")
 
@@ -29,20 +29,11 @@ if file is not None:
     if btn:
         file_name = file.name
         AUDIO_FILE = os.path.join(TMP_DIR, file_name)
-        os.system("ls -l")
-        os.system("ls /mount/src/audio-to-text/tmp")
-        if not os.path.isfile(AUDIO_FILE):
-            with open(AUDIO_FILE,'w') as f:
-                f.close()
-                pass
-        os.system("ls -l")
-        os.system("ls /mount/src/audio-to-text/tmp")
+        pre_processing(AUDIO_FILE)
         with open(AUDIO_FILE, "wb+") as f:
             f.write(file.read())
             f.close()
         file.close()
-        os.system("ls -l")
-        os.system("ls /mount/src/audio-to-text/tmp")
         file_type = option
         success = False
         with st.spinner("Loading"):
@@ -58,6 +49,7 @@ if file is not None:
             FILENAME_NO_EXT = file_name.split(".")[0]
             TRANS_FILENAME = f"{FILENAME_NO_EXT}.{file_type}"
             TRANS_FILE = os.path.join(TMP_DIR, TRANS_FILENAME)
+            pre_processing(TRANS_FILE)
             with open(TRANS_FILE, "wb+") as f:
                 f.write(bytes(transcribe, encoding='utf-8'))
                 f.close()
